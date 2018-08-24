@@ -97,19 +97,20 @@ class Tetris:
     def _draw_placed_blocks(self):
         for b in self.g.blocks:
             for p in b.posns:
-                self._draw_posn(p)
+                self._draw_posn(p, b.color)
 
     def _draw_current_block(self):
         for px, py in self.g.current_block.block.posns:
-            self._draw_posn((self.g.current_block.x + px,
-                             self.g.current_block.y + py))
+            self._draw_posn(
+                (self.g.current_block.x + px, self.g.current_block.y + py),
+                self.g.current_block.block.color)
 
-    def _draw_posn(self, p):
+    def _draw_posn(self, p, block_color):
         x, y = p
         self.canvas.create_rectangle(
             x * SCALE, (HEIGHT * SCALE) - (y * SCALE),
             x * SCALE + SCALE, (HEIGHT * SCALE) - (y * SCALE + SCALE),
-            fill=self.g.current_block.block.color)
+            fill=block_color)
 
 
 if __name__ == '__main__':
