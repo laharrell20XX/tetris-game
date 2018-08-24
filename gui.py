@@ -2,16 +2,22 @@ from core import *
 import tkinter
 import random
 SCALE = 20
-TICK_RATE = 300
+TICK_RATE = 10
 
 
 class Tetris:
     def __init__(self, parent):
+        self.level_num = tkinter.IntVar(0)
+        self.lines_cleared = tkinter.IntVar(0)
         self.blocks = 0
         self.parent = parent
+        self.frame = tkinter.Frame(parent)
+        self.frame.pack(expand=True)
+        self.level = tkinter.Label(self.frame, textvariable=self.level_num)
+        self.level.pack()
         self.canvas = tkinter.Canvas(
             parent, width=WIDTH * SCALE, height=HEIGHT * SCALE, bg='white')
-        self.canvas.pack()
+        self.canvas.pack(expand=True)
 
         self.g = Grid([], ActiveBlock(WIDTH // 2, HEIGHT - 1, new_block()))
 
@@ -26,10 +32,9 @@ class Tetris:
     def quit(self, event):
         self.parent.destroy()
 
-    def new_game(self, event):
+    def new_game(self, event=''):
         self.g = Grid([], ActiveBlock(WIDTH // 2, HEIGHT - 1, new_block()))
         self.blocks = 0
-        self.parent.after(TICK_RATE, self.keep_dropping)
 
     def move_left(self, event):
         g = self.g.move('left')
@@ -67,6 +72,9 @@ class Tetris:
             self.g = self.g.clear_full_rows()
             if self.g.is_valid():
                 self.parent.after(TICK_RATE, self.keep_dropping)
+            else:
+                self.new_game()
+                self.keep_dropping()
         self.draw()
 
     def draw(self):
