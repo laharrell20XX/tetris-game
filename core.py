@@ -110,7 +110,7 @@ class Grid:
 
     def _drop_above(self, r):
         return Grid([
-            Block([(x, y if y < r else y - 1) for x, y in b.posns])
+            Block([(x, y if y < r else y - 1) for x, y in b.posns], b.color)
             for b in self.blocks
         ], self.current_block)
 
@@ -119,7 +119,7 @@ class Grid:
             return self
         elif all(self.is_occupied((c, r)) for c in range(WIDTH)):
             cleared = Grid([
-                Block([(x, y) for x, y in b.posns if y != r], )
+                Block([(x, y) for x, y in b.posns if y != r], b.color)
                 for b in self.blocks if any(y != r for _, y in b.posns)
             ], self.current_block)
             dropped = cleared._drop_above(r)
@@ -163,9 +163,9 @@ def new_block():
         Block([(0, 2), (0, 1), (0, 0), (1, 0)], 'blue'),
         Block([(1, 2), (1, 1), (1, 0), (0, 0)], 'red'),
         Block([(0, 3), (0, 2), (0, 1), (0, 0)], 'orange'),
-        Block([(-1, 1), (0, 1), (1, 1), (0, 0)], 'magenta'),
+        Block([(-1, 1), (0, 1), (1, 1), (0, 0)], '#E50D72'),
         Block([(-1, 0), (0, 0), (1, 0), (1, 1)], 'green'),
         Block([(-1, 1), (0, 1), (0, 0), (1, 0)], 'purple'),
         Block([(0, 1), (1, 1), (0, 0), (1, 0)], 'yellow'),
-        Block([(1, 2), (0, 2), (0, 1), (0, 0), (1, 0)], 'black')
+        Block([(1, 2), (0, 2), (0, 1), (0, 0), (1, 0)], '#634011')
     ])
